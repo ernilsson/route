@@ -1,8 +1,8 @@
-package router
+package packet
 
 type Criterion func([]byte) bool
 
-type HandlerFunc func([]byte) error
+type HandlerFunc func(ctx Context) error
 
 type Route struct {
 	accept Criterion

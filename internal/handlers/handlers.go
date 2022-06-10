@@ -1,18 +1,25 @@
 package handlers
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/ernilsson/router/internal/packet"
+)
 
-func HandleLegacyPacket(packet []byte) error {
+func HandleLegacyPacket(ctx packet.Context) error {
 	fmt.Println("Handling legacy packet")
 	return nil
 }
 
-func HandleStatePacket(packet []byte) error {
+func HandleStatePacket(ctx packet.Context) error {
 	fmt.Println("Handling state packet")
 	return nil
 }
 
-func HandleTelemetryPacket(packet []byte) error {
+func HandleTelemetryPacket(ctx packet.Context) error {
 	fmt.Println("Handling telemetry packet")
+	err := ctx.Responder.Respond([]byte{0})
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -3,18 +3,18 @@ package main
 import (
 	"fmt"
 	"github.com/ernilsson/router/internal/handlers"
-	"github.com/ernilsson/router/internal/listener"
-	"github.com/ernilsson/router/internal/router"
+	"github.com/ernilsson/router/internal/packet"
 )
 
 func main() {
-	r := router.NewRouter(
-		router.WithRoute(router.HasPacketType(0), handlers.HandleLegacyPacket),
-		router.WithRoute(router.HasPacketType(1), handlers.HandleStatePacket),
-		router.WithRoute(router.HasPacketType(2), handlers.HandleTelemetryPacket),
+	r := packet.NewRouter(
+		packet.WithRoute(packet.HasPacketType(0), handlers.HandleLegacyPacket),
+		packet.WithRoute(packet.HasPacketType(1), handlers.HandleStatePacket),
+		packet.WithRoute(packet.HasPacketType(2), handlers.HandleTelemetryPacket),
 	)
 
-	l := listener.NewUdpSocketListener("localhost:1234", r)
+	l := packet.NewUdpSocketListener("localhost:1234")
+	l.Router(r)
 	if err := l.Run(onListenerRunning, onListenerErr); err != nil {
 		panic(err)
 	}
